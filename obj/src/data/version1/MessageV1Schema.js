@@ -10,9 +10,9 @@ class MessageV1Schema extends pip_services_commons_node_1.ObjectSchema {
         this.withOptionalProperty('cc', pip_services_commons_node_2.TypeCode.String);
         this.withOptionalProperty('bcc', pip_services_commons_node_2.TypeCode.String);
         this.withOptionalProperty('reply_to', pip_services_commons_node_2.TypeCode.String);
-        this.withOptionalProperty('subject', pip_services_commons_node_2.TypeCode.String);
-        this.withOptionalProperty('text', pip_services_commons_node_2.TypeCode.String);
-        this.withOptionalProperty('html', pip_services_commons_node_2.TypeCode.String);
+        this.withOptionalProperty('subject', null);
+        this.withOptionalProperty('text', null);
+        this.withOptionalProperty('html', null);
     }
 }
 exports.MessageV1Schema = MessageV1Schema;
