@@ -10,8 +10,8 @@ The microservice currently supports the following deployment options:
 This microservice has optional dependencies on the following microservices:
 - [pip-services-emailsettings](https://github.com/pip-services-users/pip-services-emailsettings) - recipient email settings
 - [pip-services-smssettings](https://github.com/pip-services-users/pip-services-emailsettings) - recipient sms settings
-- [pip-services-emaildelivery](https://github.com/pip-services-infrastructure/pip-services-emaildelivery) - email sending
-- [pip-services-smsdelivery](https://github.com/pip-services-infrastructure/pip-services-smsdelivery) - sms sending
+- [pip-services-email](https://github.com/pip-services-infrastructure/pip-services-email) - email sending
+- [pip-services-sms](https://github.com/pip-services-infrastructure/pip-services-sms) - sms sending
 - [pip-services-msgtemplates](https://github.com/pip-services-content/pip-services-msgtemplates) - message templates
 
 <a name="links"></a> Quick Links:

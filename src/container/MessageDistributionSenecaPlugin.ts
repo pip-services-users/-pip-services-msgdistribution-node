@@ -8,8 +8,8 @@ import { SenecaInstance } from 'pip-services-net-node';
 
 import { EmailSettingsSenecaClientV1 } from 'pip-clients-emailsettings-node';
 import { SmsSettingsSenecaClientV1 } from 'pip-clients-smssettings-node';
-import { EmailDeliverySenecaClientV1 } from 'pip-clients-emaildelivery-node';
-import { SmsDeliverySenecaClientV1 } from 'pip-clients-smsdelivery-node';
+import { EmailSenecaClientV1 } from 'pip-clients-email-node';
+import { SmsSenecaClientV1 } from 'pip-clients-sms-node';
 import { MessageTemplatesSenecaClientV1 } from 'pip-clients-msgtemplates-node';
 
 import { MessageDistributionController } from '../logic/MessageDistributionController';
@@ -35,11 +35,11 @@ export class MessageDistributionSenecaPlugin extends SenecaPlugin {
         let smsSettingsOptions = options.smssettings || {};
         smsSettingsClient.configure(ConfigParams.fromValue(smsSettingsOptions));
 
-        let emailDeliveryClient = new EmailDeliverySenecaClientV1();
+        let emailDeliveryClient = new EmailSenecaClientV1();
         let emailDeliveryOptions = options.emaildelivery || {};
         emailDeliveryClient.configure(ConfigParams.fromValue(emailDeliveryOptions));
 
-        let smsDeliveryClient = new EmailDeliverySenecaClientV1();
+        let smsDeliveryClient = new EmailSenecaClientV1();
         let smsDeliveryOptions = options.smsdelivery || {};
         smsDeliveryClient.configure(ConfigParams.fromValue(smsDeliveryOptions));
 
@@ -61,8 +61,8 @@ export class MessageDistributionSenecaPlugin extends SenecaPlugin {
             new Descriptor('pip-services-net', 'seneca', 'instance', 'default', '1.0'), senecaInstance,
             new Descriptor('pip-services-emailsettings', 'client', 'seneca', 'default', '1.0'), emailSettingsClient,
             new Descriptor('pip-services-smssettings', 'client', 'seneca', 'default', '1.0'), smsSettingsClient,
-            new Descriptor('pip-services-emaildelivery', 'client', 'seneca', 'default', '1.0'), emailDeliveryClient,
-            new Descriptor('pip-services-smsdelivery', 'client', 'seneca', 'default', '1.0'), smsDeliveryClient,
+            new Descriptor('pip-services-email', 'client', 'seneca', 'default', '1.0'), emailDeliveryClient,
+            new Descriptor('pip-services-sms', 'client', 'seneca', 'default', '1.0'), smsDeliveryClient,
             new Descriptor('pip-services-msgtemplates', 'client', 'seneca', 'default', '1.0'), messageTemplatesClient,
             new Descriptor('pip-services-msgdistribution', 'controller', 'default', 'default', '1.0'), controller,
             new Descriptor('pip-services-msgdistribution', 'service', 'seneca', 'default', '1.0'), service

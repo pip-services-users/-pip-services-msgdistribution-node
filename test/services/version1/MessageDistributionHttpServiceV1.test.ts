@@ -9,8 +9,8 @@ import { References } from 'pip-services-commons-node';
 
 import { EmailSettingsMemoryClientV1 } from 'pip-clients-emailsettings-node';
 import { SmsSettingsMemoryClientV1 } from 'pip-clients-smssettings-node';
-import { EmailDeliveryNullClientV1 } from 'pip-clients-emaildelivery-node';
-import { SmsDeliveryNullClientV1 } from 'pip-clients-smsdelivery-node';
+import { EmailNullClientV1 } from 'pip-clients-email-node';
+import { SmsNullClientV1 } from 'pip-clients-sms-node';
 
 import { MessageV1 } from '../../../src/data/version1/MessageV1';
 import { DeliveryMethodV1 } from '../../../src/data/version1/DeliveryMethodV1';
@@ -39,8 +39,8 @@ suite('MessageDistributionHttpServiceV1', ()=> {
         let smsSettingsClient = new SmsSettingsMemoryClientV1();
         smsSettingsClient.setSettings(null, { id: '1', name: 'User 1', phone: '+12345678901' });
 
-        let emailDeliveryClient = new EmailDeliveryNullClientV1();
-        let smsDeliveryClient = new SmsDeliveryNullClientV1();
+        let emailDeliveryClient = new EmailNullClientV1();
+        let smsDeliveryClient = new SmsNullClientV1();
         let templatesClient = new MessageTemplatesMockClientV1();
         
         service = new MessageDistributionHttpServiceV1();
@@ -49,8 +49,8 @@ suite('MessageDistributionHttpServiceV1', ()=> {
         let references: References = References.fromTuples(
             new Descriptor('pip-services-emailsettings', 'client', 'memory', 'default', '1.0'), emailSettingsClient,
             new Descriptor('pip-services-smssettings', 'client', 'memory', 'default', '1.0'), smsSettingsClient,
-            new Descriptor('pip-services-emaildelivery', 'client', 'null', 'default', '1.0'), emailDeliveryClient,
-            new Descriptor('pip-services-smsdelivery', 'client', 'null', 'default', '1.0'), smsDeliveryClient,
+            new Descriptor('pip-services-email', 'client', 'null', 'default', '1.0'), emailDeliveryClient,
+            new Descriptor('pip-services-sms', 'client', 'null', 'default', '1.0'), smsDeliveryClient,
             new Descriptor('pip-services-msgtemplates', 'client', 'mock', 'default', '1.0'), templatesClient,
             new Descriptor('pip-services-msgdistribution', 'controller', 'default', 'default', '1.0'), controller,
             new Descriptor('pip-services-msgdistribution', 'service', 'http', 'default', '1.0'), service

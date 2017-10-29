@@ -8,7 +8,7 @@ const pip_services_net_node_1 = require("pip-services-net-node");
 const pip_services_net_node_2 = require("pip-services-net-node");
 const pip_clients_emailsettings_node_1 = require("pip-clients-emailsettings-node");
 const pip_clients_smssettings_node_1 = require("pip-clients-smssettings-node");
-const pip_clients_emaildelivery_node_1 = require("pip-clients-emaildelivery-node");
+const pip_clients_email_node_1 = require("pip-clients-email-node");
 const pip_clients_msgtemplates_node_1 = require("pip-clients-msgtemplates-node");
 const MessageDistributionController_1 = require("../logic/MessageDistributionController");
 const MessageDistributionSenecaServiceV1_1 = require("../services/version1/MessageDistributionSenecaServiceV1");
@@ -27,10 +27,10 @@ class MessageDistributionSenecaPlugin extends pip_services_net_node_1.SenecaPlug
         let smsSettingsClient = new pip_clients_smssettings_node_1.SmsSettingsSenecaClientV1();
         let smsSettingsOptions = options.smssettings || {};
         smsSettingsClient.configure(pip_services_commons_node_3.ConfigParams.fromValue(smsSettingsOptions));
-        let emailDeliveryClient = new pip_clients_emaildelivery_node_1.EmailDeliverySenecaClientV1();
+        let emailDeliveryClient = new pip_clients_email_node_1.EmailSenecaClientV1();
         let emailDeliveryOptions = options.emaildelivery || {};
         emailDeliveryClient.configure(pip_services_commons_node_3.ConfigParams.fromValue(emailDeliveryOptions));
-        let smsDeliveryClient = new pip_clients_emaildelivery_node_1.EmailDeliverySenecaClientV1();
+        let smsDeliveryClient = new pip_clients_email_node_1.EmailSenecaClientV1();
         let smsDeliveryOptions = options.smsdelivery || {};
         smsDeliveryClient.configure(pip_services_commons_node_3.ConfigParams.fromValue(smsDeliveryOptions));
         let messageTemplatesClient = new pip_clients_msgtemplates_node_1.MessageTemplatesSenecaClientV1();
@@ -42,7 +42,7 @@ class MessageDistributionSenecaPlugin extends pip_services_net_node_1.SenecaPlug
         let serviceOptions = options.service || {};
         service.configure(pip_services_commons_node_3.ConfigParams.fromValue(serviceOptions));
         let senecaInstance = new pip_services_net_node_2.SenecaInstance(seneca);
-        return pip_services_commons_node_1.References.fromTuples(new pip_services_commons_node_2.Descriptor('pip-services-commons', 'logger', 'console', 'default', '1.0'), logger, new pip_services_commons_node_2.Descriptor('pip-services-net', 'seneca', 'instance', 'default', '1.0'), senecaInstance, new pip_services_commons_node_2.Descriptor('pip-services-emailsettings', 'client', 'seneca', 'default', '1.0'), emailSettingsClient, new pip_services_commons_node_2.Descriptor('pip-services-smssettings', 'client', 'seneca', 'default', '1.0'), smsSettingsClient, new pip_services_commons_node_2.Descriptor('pip-services-emaildelivery', 'client', 'seneca', 'default', '1.0'), emailDeliveryClient, new pip_services_commons_node_2.Descriptor('pip-services-smsdelivery', 'client', 'seneca', 'default', '1.0'), smsDeliveryClient, new pip_services_commons_node_2.Descriptor('pip-services-msgtemplates', 'client', 'seneca', 'default', '1.0'), messageTemplatesClient, new pip_services_commons_node_2.Descriptor('pip-services-msgdistribution', 'controller', 'default', 'default', '1.0'), controller, new pip_services_commons_node_2.Descriptor('pip-services-msgdistribution', 'service', 'seneca', 'default', '1.0'), service);
+        return pip_services_commons_node_1.References.fromTuples(new pip_services_commons_node_2.Descriptor('pip-services-commons', 'logger', 'console', 'default', '1.0'), logger, new pip_services_commons_node_2.Descriptor('pip-services-net', 'seneca', 'instance', 'default', '1.0'), senecaInstance, new pip_services_commons_node_2.Descriptor('pip-services-emailsettings', 'client', 'seneca', 'default', '1.0'), emailSettingsClient, new pip_services_commons_node_2.Descriptor('pip-services-smssettings', 'client', 'seneca', 'default', '1.0'), smsSettingsClient, new pip_services_commons_node_2.Descriptor('pip-services-email', 'client', 'seneca', 'default', '1.0'), emailDeliveryClient, new pip_services_commons_node_2.Descriptor('pip-services-sms', 'client', 'seneca', 'default', '1.0'), smsDeliveryClient, new pip_services_commons_node_2.Descriptor('pip-services-msgtemplates', 'client', 'seneca', 'default', '1.0'), messageTemplatesClient, new pip_services_commons_node_2.Descriptor('pip-services-msgdistribution', 'controller', 'default', 'default', '1.0'), controller, new pip_services_commons_node_2.Descriptor('pip-services-msgdistribution', 'service', 'seneca', 'default', '1.0'), service);
     }
 }
 exports.MessageDistributionSenecaPlugin = MessageDistributionSenecaPlugin;

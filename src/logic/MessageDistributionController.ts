@@ -19,12 +19,12 @@ import { IEmailSettingsClientV1 } from 'pip-clients-emailsettings-node';
 import { SmsSettingsV1 } from 'pip-clients-smssettings-node';
 import { ISmsSettingsClientV1 } from 'pip-clients-smssettings-node';
 
-import { EmailMessageV1 } from 'pip-clients-emaildelivery-node';
-import { EmailRecipientV1 } from 'pip-clients-emaildelivery-node';
-import { IEmailDeliveryClientV1 } from 'pip-clients-emaildelivery-node';
-import { SmsMessageV1 } from 'pip-clients-smsdelivery-node';
-import { SmsRecipientV1 } from 'pip-clients-smsdelivery-node';
-import { ISmsDeliveryClientV1 } from 'pip-clients-smsdelivery-node';
+import { EmailMessageV1 } from 'pip-clients-email-node';
+import { EmailRecipientV1 } from 'pip-clients-email-node';
+import { IEmailClientV1 } from 'pip-clients-email-node';
+import { SmsMessageV1 } from 'pip-clients-sms-node';
+import { SmsRecipientV1 } from 'pip-clients-sms-node';
+import { ISmsClientV1 } from 'pip-clients-sms-node';
 
 import { IMessageTemplatesClientV1 } from 'pip-clients-msgtemplates-node';
 
@@ -37,8 +37,8 @@ export class MessageDistributionController implements IConfigurable, IReferencea
     private static _defaultConfig: ConfigParams = ConfigParams.fromTuples(
         'dependencies.emailsettings', 'pip-services-emailsettings:client:*:*:1.0',
         'dependencies.smssettings', 'pip-services-smssettings:client:*:*:1.0',
-        'dependencies.emaildelivery', 'pip-services-emaildelivery:client:*:*:1.0',
-        'dependencies.smsdelivery', 'pip-services-smsdelivery:client:*:*:1.0',
+        'dependencies.emaildelivery', 'pip-services-email:client:*:*:1.0',
+        'dependencies.smsdelivery', 'pip-services-sms:client:*:*:1.0',
         'dependencies.msgtemplates', 'pip-services-msgtemplates:client:*:*:1.0'
     );
 
@@ -46,8 +46,8 @@ export class MessageDistributionController implements IConfigurable, IReferencea
     private _dependencyResolver: DependencyResolver = new DependencyResolver(MessageDistributionController._defaultConfig);
     private _emailSettingsClient: IEmailSettingsClientV1;
     private _smsSettingsClient: ISmsSettingsClientV1;
-    private _emailDeliveryClient: IEmailDeliveryClientV1;
-    private _smsDeliveryClient: ISmsDeliveryClientV1;
+    private _emailDeliveryClient: IEmailClientV1;
+    private _smsDeliveryClient: ISmsClientV1;
     private _templatesClient: IMessageTemplatesClientV1;
     private _commandSet: MessageDistributionCommandSet;
 
@@ -62,8 +62,8 @@ export class MessageDistributionController implements IConfigurable, IReferencea
 
         this._emailSettingsClient = this._dependencyResolver.getOneOptional<IEmailSettingsClientV1>('emailsettings');
         this._smsSettingsClient = this._dependencyResolver.getOneOptional<ISmsSettingsClientV1>('smssettings');
-        this._emailDeliveryClient = this._dependencyResolver.getOneOptional<IEmailDeliveryClientV1>('emaildelivery');
-        this._smsDeliveryClient = this._dependencyResolver.getOneOptional<ISmsDeliveryClientV1>('smsdelivery');
+        this._emailDeliveryClient = this._dependencyResolver.getOneOptional<IEmailClientV1>('emaildelivery');
+        this._smsDeliveryClient = this._dependencyResolver.getOneOptional<ISmsClientV1>('smsdelivery');
         this._templatesClient = this._dependencyResolver.getOneOptional<IMessageTemplatesClientV1>('msgtemplates');
     }
 
