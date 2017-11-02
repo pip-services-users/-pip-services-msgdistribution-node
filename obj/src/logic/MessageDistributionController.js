@@ -75,7 +75,7 @@ class MessageDistributionController {
         });
     }
     sendEmailMessages(correlationId, recipients, message, parameters, callback) {
-        if (recipients.length == 0) {
+        if (this._emailDeliveryClient == null) {
             callback(null);
             return;
         }
@@ -86,10 +86,14 @@ class MessageDistributionController {
             html: message.html
         };
         let emailRecipients = _.filter(recipients, r => r.email != null);
+        if (emailRecipients.length == 0) {
+            callback(null);
+            return;
+        }
         this._emailDeliveryClient.sendMessageToRecipients(correlationId, emailRecipients, emailMessage, parameters, callback);
     }
     sendSmsMessages(correlationId, recipients, message, parameters, callback) {
-        if (recipients.length == 0) {
+        if (this._smsDeliveryClient == null) {
             callback(null);
             return;
         }
@@ -98,6 +102,10 @@ class MessageDistributionController {
             text: message.text || message.subject,
         };
         let smsRecipients = _.filter(recipients, r => r.phone != null);
+        if (smsRecipients.length == 0) {
+            callback(null);
+            return;
+        }
         this._smsDeliveryClient.sendMessageToRecipients(correlationId, smsRecipients, smsMessage, parameters, callback);
     }
     sendMessage(correlationId, recipient, message, parameters, method, callback) {
@@ -136,7 +144,7 @@ class MessageDistributionController {
     sendEmailMessageToRecipients(correlationId, recipientIds, subscription, message, parameters, callback) {
         let settings;
         let recipients;
-        if (this._emailSettingsClient == null || this._emailSettingsClient == null) {
+        if (this._emailDeliveryClient == null || this._emailSettingsClient == null) {
             callback(null);
             return;
         }
@@ -177,7 +185,7 @@ class MessageDistributionController {
     sendSmsMessageToRecipients(correlationId, recipientIds, subscription, message, parameters, callback) {
         let settings;
         let recipients;
-        if (this._smsSettingsClient == null || this._smsSettingsClient == null) {
+        if (this._smsDeliveryClient == null || this._smsSettingsClient == null) {
             callback(null);
             return;
         }

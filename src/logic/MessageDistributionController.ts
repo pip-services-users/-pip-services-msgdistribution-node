@@ -143,11 +143,11 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
 
-        if (recipients.length == 0) {
+        if (this._emailDeliveryClient == null) {
             callback(null);
             return;
         }
-
+                
         let emailMessage = <EmailMessageV1>{
             from: message.from,
             subject: message.subject,
@@ -157,6 +157,11 @@ export class MessageDistributionController implements IConfigurable, IReferencea
 
         let emailRecipients = _.filter(recipients, r => r.email != null);
 
+        if (emailRecipients.length == 0) {
+            callback(null);
+            return;
+        }
+        
         this._emailDeliveryClient.sendMessageToRecipients(
             correlationId, emailRecipients, emailMessage, parameters, callback
         );
@@ -166,7 +171,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
             
-        if (recipients.length == 0) {
+        if (this._smsDeliveryClient == null) {
             callback(null);
             return;
         }
@@ -176,6 +181,11 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             text: message.text || message.subject,
         };
         let smsRecipients = _.filter(recipients, r => r.phone != null);
+
+        if (smsRecipients.length == 0) {
+            callback(null);
+            return;
+        }
         
         this._smsDeliveryClient.sendMessageToRecipients(
             correlationId, smsRecipients, smsMessage, parameters, callback
@@ -229,7 +239,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         let settings: EmailSettingsV1[];
         let recipients: EmailRecipientV1[];
             
-        if (this._emailSettingsClient == null || this._emailSettingsClient == null) {
+        if (this._emailDeliveryClient == null || this._emailSettingsClient == null) {
             callback(null);
             return;
         }
@@ -279,7 +289,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         let settings: SmsSettingsV1[];
         let recipients: SmsRecipientV1[];
             
-        if (this._smsSettingsClient == null || this._smsSettingsClient == null) {
+        if (this._smsDeliveryClient == null || this._smsSettingsClient == null) {
             callback(null);
             return;
         }
