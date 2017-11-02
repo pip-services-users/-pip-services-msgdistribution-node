@@ -13,6 +13,7 @@ import { EmailNullClientV1 } from 'pip-clients-email-node';
 import { SmsNullClientV1 } from 'pip-clients-sms-node';
 
 import { MessageV1 } from '../../src/data/version1/MessageV1';
+import { RecipientV1 } from '../../src/data/version1/RecipientV1';
 import { DeliveryMethodV1 } from '../../src/data/version1/DeliveryMethodV1';
 import { MessageTemplatesMockClientV1 } from './MessageTemplatesMockClientV1';
 import { MessageDistributionController } from '../../src/logic/MessageDistributionController';
@@ -44,6 +45,41 @@ suite('MessageDistributionController', ()=> {
         controller.setReferences(references);
     });
     
+    test('Send Message', function (done) {
+        let message = <MessageV1> {
+            subject: 'Test subject',
+            text: 'Test text',
+            html: 'Test html'
+        };
+        let recipient = <RecipientV1> {
+            name: 'User 1',
+            email: 'somebody@somewhere.com',
+            phone: '+1233452345'
+        }
+
+        controller.sendMessage(
+            null, recipient, message, null, DeliveryMethodV1.All,
+            (err) => {
+                assert.isNull(err);
+                done();
+            }
+        );
+    });
+
+    test('Send Message using Template', function (done) {
+        let message = <MessageV1> {
+            template: 'test'
+        };
+
+        controller.sendMessageToRecipient(
+            null, '1', null, message, null, DeliveryMethodV1.All,
+            (err) => {
+                assert.isNull(err);
+                done();
+            }
+        );
+    });
+
     test('Send Message to Recipients', function (done) {
         let message = <MessageV1> {
             subject: 'Test subject',
@@ -73,5 +109,5 @@ suite('MessageDistributionController', ()=> {
             }
         );
     });
-    
+
 });

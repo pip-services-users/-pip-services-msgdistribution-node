@@ -29,6 +29,7 @@ import { ISmsClientV1 } from 'pip-clients-sms-node';
 import { IMessageTemplatesClientV1 } from 'pip-clients-msgtemplates-node';
 
 import { MessageV1 } from '../data/version1/MessageV1';
+import { RecipientV1 } from '../data/version1/RecipientV1';
 import { DeliveryMethodV1 } from '../data/version1/DeliveryMethodV1';
 import { IMessageDistributionController } from './IMessageDistributionController';
 import { MessageDistributionCommandSet } from './MessageDistributionCommandSet';
@@ -71,13 +72,6 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         if (this._commandSet == null)
             this._commandSet = new MessageDistributionCommandSet(this);
         return this._commandSet;
-    }
-
-    public sendMessageToRecipient(correlationId: string, recipientId: string, subscription: string,
-        message: MessageV1, parameters: ConfigParams, method: string,
-        callback?: (err: any) => void) {
-        
-        this.sendMessageToRecipients(correlationId, [ recipientId ], subscription, message, parameters, method, callback);
     }
     
     private getMessage(correlationId: string, message: MessageV1,
@@ -145,7 +139,90 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         });
     }
 
-    private sendEmailMessages(correlationId: string, recipientIds: string[], subscription: string,
+    private sendEmailMessages(correlationId: string, recipients: any[],
+        message: MessageV1, parameters: ConfigParams,
+        callback: (err: any) => void): void {
+
+        if (recipients.length == 0) {
+            callback(null);
+            return;
+        }
+
+        let emailMessage = <EmailMessageV1>{
+            from: message.from,
+            subject: message.subject,
+            text: message.text,
+            html: message.html
+        };
+
+        let emailRecipients = _.filter(recipients, r => r.email != null);
+
+        this._emailDeliveryClient.sendMessageToRecipients(
+            correlationId, emailRecipients, emailMessage, parameters, callback
+        );
+    }
+
+    private sendSmsMessages(correlationId: string, recipients: any[],
+        message: MessageV1, parameters: ConfigParams,
+        callback: (err: any) => void): void {
+            
+        if (recipients.length == 0) {
+            callback(null);
+            return;
+        }
+
+        let smsMessage = <SmsMessageV1>{
+            from: message.from,
+            text: message.text || message.subject,
+        };
+        let smsRecipients = _.filter(recipients, r => r.phone != null);
+        
+        this._smsDeliveryClient.sendMessageToRecipients(
+            correlationId, smsRecipients, smsMessage, parameters, callback
+        );
+    }
+
+
+    public sendMessage(correlationId: string, recipient: RecipientV1,
+        message: MessageV1, parameters: ConfigParams, method: string,
+        callback?: (err: any) => void) {
+        
+        this.sendMessages(correlationId, [ recipient ], message, parameters, method, callback);
+    }
+
+    public sendMessages(correlationId: string, recipients: RecipientV1[],
+        message: MessageV1, parameters: ConfigParams, method: string,
+        callback?: (err: any) => void): void {
+
+        async.series([
+            // Validate message or retrieve template
+            (callback) => {
+                this.getMessage(correlationId, message, (err, newMessage) => {
+                    message = newMessage;
+                    callback(err);
+                });
+            },
+            // Deliver messages
+            (callback) => {
+                async.parallel([
+                    // Send via Email
+                    (callback) => {
+                        if (method == DeliveryMethodV1.Email || method == DeliveryMethodV1.All)
+                            this.sendEmailMessages(correlationId, recipients, message, parameters, callback);
+                        else callback();
+                    },
+                    // Send via SMS
+                    (callback) => {
+                        if (method == DeliveryMethodV1.Sms || method == DeliveryMethodV1.All)
+                            this.sendSmsMessages(correlationId, recipients, message, parameters, callback);
+                        else callback();
+                    }
+                ], callback);
+            },
+        ], callback);
+    }
+    
+    private sendEmailMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string,
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
 
@@ -190,26 +267,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             },
             // Deliver messages
             (callback) => {
-                if (recipients.length == 0) {
-                    callback();
-                    return;
-                }
-
-                let emailMessage = <EmailMessageV1>{
-                    from: message.from,
-                    subject: message.subject,
-                    text: message.text,
-                    html: message.html
-                };
-
-                this._emailDeliveryClient.sendMessageToRecipients(
-                    correlationId, recipients, emailMessage, parameters, callback
-                );
+                this.sendEmailMessages(correlationId, recipients, message, parameters, callback);
             }
         ], callback);
     }
 
-    private sendSmsMessages(correlationId: string, recipientIds: string[], subscription: string,
+    private sendSmsMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string,
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
             
@@ -254,23 +317,18 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             },
             // Deliver messages
             (callback) => {
-                if (recipients.length == 0) {
-                    callback();
-                    return;
-                }
-
-                let smsMessage = <SmsMessageV1>{
-                    from: message.from,
-                    text: message.text || message.subject,
-                };
-                
-                this._smsDeliveryClient.sendMessageToRecipients(
-                    correlationId, recipients, smsMessage, parameters, callback
-                );
+                this.sendSmsMessages(correlationId, recipients, message, parameters, callback);
             }
         ], callback);
     }
     
+    public sendMessageToRecipient(correlationId: string, recipientId: string, subscription: string,
+        message: MessageV1, parameters: ConfigParams, method: string,
+        callback?: (err: any) => void) {
+        
+        this.sendMessageToRecipients(correlationId, [ recipientId ], subscription, message, parameters, method, callback);
+    }
+
     public sendMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string,
         message: MessageV1, parameters: ConfigParams, method: string,
         callback?: (err: any) => void): void {
@@ -289,13 +347,13 @@ export class MessageDistributionController implements IConfigurable, IReferencea
                     // Send via Email
                     (callback) => {
                         if (method == DeliveryMethodV1.Email || method == DeliveryMethodV1.All)
-                            this.sendEmailMessages(correlationId, recipientIds, subscription, message, parameters, callback);
+                            this.sendEmailMessageToRecipients(correlationId, recipientIds, subscription, message, parameters, callback);
                         else callback();
                     },
                     // Send via SMS
                     (callback) => {
                         if (method == DeliveryMethodV1.Sms || method == DeliveryMethodV1.All)
-                            this.sendSmsMessages(correlationId, recipientIds, subscription, message, parameters, callback);
+                            this.sendSmsMessageToRecipients(correlationId, recipientIds, subscription, message, parameters, callback);
                         else callback();
                     }
                 ], callback);

@@ -13,6 +13,7 @@ import { EmailNullClientV1 } from 'pip-clients-email-node';
 import { SmsNullClientV1 } from 'pip-clients-sms-node';
 
 import { MessageV1 } from '../../../src/data/version1/MessageV1';
+import { RecipientV1 } from '../../../src/data/version1/RecipientV1';
 import { DeliveryMethodV1 } from '../../../src/data/version1/DeliveryMethodV1';
 import { MessageTemplatesMockClientV1 } from '../../logic/MessageTemplatesMockClientV1';
 import { MessageDistributionController } from '../../../src/logic/MessageDistributionController';
@@ -68,6 +69,31 @@ suite('MessageDistributionHttpServiceV1', ()=> {
     setup(() => {
         let url = 'http://localhost:3000';
         rest = restify.createJsonClient({ url: url, version: '*' });
+    });
+
+    test('Send Message', function (done) {
+        let message = <MessageV1> {
+            subject: 'Test subject',
+            text: 'Test text',
+            html: 'Test html'
+        };
+        let recipient = <RecipientV1> {
+            name: 'User 1',
+            email: 'somebody@somewhere.com',
+            phone: '+1233452345'
+        }
+
+        rest.post('/msg_distribution/send_message',
+            {
+                recipient: recipient, 
+                message: message, 
+                method: DeliveryMethodV1.All
+            },
+            (err, req, res, result) => {
+                assert.isNull(err);
+                done();
+            }
+        );
     });
 
     test('Send Message to Recipients', function (done) {
