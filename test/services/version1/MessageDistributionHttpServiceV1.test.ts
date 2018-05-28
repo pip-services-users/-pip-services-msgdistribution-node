@@ -83,7 +83,7 @@ suite('MessageDistributionHttpServiceV1', ()=> {
             phone: '+1233452345'
         }
 
-        rest.post('/msg_distribution/send_message',
+        rest.post('/v1/msg_distribution/send_message',
             {
                 recipient: recipient, 
                 message: message, 
@@ -103,7 +103,7 @@ suite('MessageDistributionHttpServiceV1', ()=> {
             html: 'Test html'
         };
 
-        rest.post('/msg_distribution/send_message_to_recipients',
+        rest.post('/v1/msg_distribution/send_message_to_recipients',
             {
                 recipient_ids: [ '1', '2' ], 
                 message: message, 
@@ -121,7 +121,7 @@ suite('MessageDistributionHttpServiceV1', ()=> {
             template: 'test'
         };
 
-        rest.post('/msg_distribution/send_message_to_recipient',
+        rest.post('/v1/msg_distribution/send_message_to_recipient',
             {
                 recipient_id: '1', 
                 message: message, 
