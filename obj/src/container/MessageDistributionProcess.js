@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_container_node_1 = require("pip-services-container-node");
-const pip_services_net_node_1 = require("pip-services-net-node");
-const pip_services_oss_node_1 = require("pip-services-oss-node");
 const pip_clients_emailsettings_node_1 = require("pip-clients-emailsettings-node");
 const pip_clients_smssettings_node_1 = require("pip-clients-smssettings-node");
 const pip_clients_email_node_1 = require("pip-clients-email-node");
@@ -18,8 +16,6 @@ class MessageDistributionProcess extends pip_services_container_node_1.ProcessCo
         this._factories.add(new pip_clients_email_node_1.EmailClientFactory());
         this._factories.add(new pip_clients_sms_node_1.SmsClientFactory());
         this._factories.add(new pip_clients_msgtemplates_node_1.MessageTemplatesClientFactory());
-        this._factories.add(new pip_services_net_node_1.DefaultNetFactory);
-        this._factories.add(new pip_services_oss_node_1.DefaultOssFactory);
     }
 }
 exports.MessageDistributionProcess = MessageDistributionProcess;

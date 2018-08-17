@@ -22,7 +22,10 @@ try {
     # Test using curl
     Start-Sleep -Seconds 10
     Invoke-WebRequest -Uri http://localhost:8080/heartbeat
-    #Invoke-WebRequest -Uri http://localhost:8080/dashboards/get_dashboards
+    #$recipient = @{ name='User 1'; email='somebody@somewhere.com'; phone='+1233452345' }
+    #$message = @{ subject='Test subject'; text='Test text'; html='Test html' }
+    #$postParams = @ { recipient=$recipient; message=$message; method="all" }
+    #Invoke-WebRequest -Uri http://localhost:8080/v1/msg_distribution/send_message -Method POST -Body $postParams
 
     Write-Host "The container was successfully built."
 } finally {
