@@ -6,6 +6,7 @@ const pip_clients_smssettings_node_1 = require("pip-clients-smssettings-node");
 const pip_clients_email_node_1 = require("pip-clients-email-node");
 const pip_clients_sms_node_1 = require("pip-clients-sms-node");
 const pip_clients_msgtemplates_node_1 = require("pip-clients-msgtemplates-node");
+const pip_services_rpc_node_1 = require("pip-services-rpc-node");
 const MessageDistributionServiceFactory_1 = require("../build/MessageDistributionServiceFactory");
 class MessageDistributionProcess extends pip_services_container_node_1.ProcessContainer {
     constructor() {
@@ -16,6 +17,7 @@ class MessageDistributionProcess extends pip_services_container_node_1.ProcessCo
         this._factories.add(new pip_clients_email_node_1.EmailClientFactory());
         this._factories.add(new pip_clients_sms_node_1.SmsClientFactory());
         this._factories.add(new pip_clients_msgtemplates_node_1.MessageTemplatesClientFactory());
+        this._factories.add(new pip_services_rpc_node_1.DefaultRpcFactory());
     }
 }
 exports.MessageDistributionProcess = MessageDistributionProcess;
