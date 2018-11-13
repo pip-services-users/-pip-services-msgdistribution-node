@@ -75,10 +75,8 @@ class MessageDistributionController {
         });
     }
     sendEmailMessages(correlationId, recipients, message, parameters, callback) {
-        console.log("!!! sendEmailMessages ");
         if (this._emailDeliveryClient == null) {
             let err = new pip_services_commons_node_4.ConfigException(correlationId, 'EMAIL_DELIVERY_CLIENT_UNDEFINED', 'Email client is not defined');
-            console.log("!!! _emailDeliveryClient == null");
             callback(err);
             return;
         }
@@ -90,7 +88,6 @@ class MessageDistributionController {
         };
         let emailRecipients = _.filter(recipients, r => r.email != null);
         if (emailRecipients.length == 0) {
-            console.log("!!! emailRecipients.length == 0 ");
             let err = new pip_services_commons_node_3.BadRequestException(correlationId, 'NO_EMAIL_RECIPIENTS', 'email recipients.email not set; emailRecipients.length equals 0');
             callback(err);
             return;
@@ -119,7 +116,6 @@ class MessageDistributionController {
         this.sendMessages(correlationId, [recipient], message, parameters, method, callback);
     }
     sendMessages(correlationId, recipients, message, parameters, method, callback) {
-        console.log("!!! sendMessages ");
         async.series([
             // Validate message or retrieve template
             (callback) => {

@@ -142,16 +142,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
     private sendEmailMessages(correlationId: string, recipients: any[],
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
-
-        console.log("!!! sendEmailMessages ")
-
         if (this._emailDeliveryClient == null) {
             let err = new ConfigException(
                 correlationId,
                 'EMAIL_DELIVERY_CLIENT_UNDEFINED',
                 'Email client is not defined'
             );
-            console.log("!!! _emailDeliveryClient == null")
             callback(err);
             return;
         }
@@ -166,7 +162,6 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         let emailRecipients = _.filter(recipients, r => r.email != null);
 
         if (emailRecipients.length == 0) {
-            console.log("!!! emailRecipients.length == 0 ")
             let err = new BadRequestException(
                 correlationId,
                 'NO_EMAIL_RECIPIENTS',
@@ -227,8 +222,6 @@ export class MessageDistributionController implements IConfigurable, IReferencea
     public sendMessages(correlationId: string, recipients: RecipientV1[],
         message: MessageV1, parameters: ConfigParams, method: string,
         callback?: (err: any) => void): void {
-
-        console.log("!!! sendMessages ")
 
         async.series([
             // Validate message or retrieve template
