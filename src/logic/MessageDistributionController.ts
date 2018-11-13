@@ -144,7 +144,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         callback: (err: any) => void): void {
 
         if (this._emailDeliveryClient == null) {
-            callback(null);
+            let err = new ConfigException(
+                correlationId,
+                'EMAIL_DELIVERY_CLIENT_UNDEFINED',
+                'EmailClient is not defined'
+            );
+            callback(err);
             return;
         }
                 
@@ -158,7 +163,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         let emailRecipients = _.filter(recipients, r => r.email != null);
 
         if (emailRecipients.length == 0) {
-            callback(null);
+            let err = new BadRequestException(
+                correlationId,
+                'NO_EMAIL_RECIPIENTS',
+                'email recipients.email not set; emailRecipients.length equals 0'
+            );
+            callback(err);
             return;
         }
         

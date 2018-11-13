@@ -76,7 +76,8 @@ class MessageDistributionController {
     }
     sendEmailMessages(correlationId, recipients, message, parameters, callback) {
         if (this._emailDeliveryClient == null) {
-            callback(null);
+            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'EMAIL_DELIVERY_CLIENT_UNDEFINED', 'EmailClient is not defined');
+            callback(err);
             return;
         }
         let emailMessage = {
@@ -87,7 +88,8 @@ class MessageDistributionController {
         };
         let emailRecipients = _.filter(recipients, r => r.email != null);
         if (emailRecipients.length == 0) {
-            callback(null);
+            let err = new pip_services_commons_node_3.BadRequestException(correlationId, 'NO_EMAIL_RECIPIENTS', 'email recipients.email not set; emailRecipients.length equals 0');
+            callback(err);
             return;
         }
         this._emailDeliveryClient.sendMessageToRecipients(correlationId, emailRecipients, emailMessage, parameters, callback);
