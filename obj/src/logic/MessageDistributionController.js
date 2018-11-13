@@ -76,7 +76,7 @@ class MessageDistributionController {
     }
     sendEmailMessages(correlationId, recipients, message, parameters, callback) {
         if (this._emailDeliveryClient == null) {
-            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'EMAIL_DELIVERY_CLIENT_UNDEFINED', 'EmailClient is not defined');
+            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'EMAIL_DELIVERY_CLIENT_UNDEFINED', 'Email client is not defined');
             callback(err);
             return;
         }
@@ -96,7 +96,8 @@ class MessageDistributionController {
     }
     sendSmsMessages(correlationId, recipients, message, parameters, callback) {
         if (this._smsDeliveryClient == null) {
-            callback(null);
+            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'SMS_DELIVERY_CLIENT_UNDEFINED', 'Sms client is not defined');
+            callback(err);
             return;
         }
         let smsMessage = {
@@ -105,7 +106,8 @@ class MessageDistributionController {
         };
         let smsRecipients = _.filter(recipients, r => r.phone != null);
         if (smsRecipients.length == 0) {
-            callback(null);
+            let err = new pip_services_commons_node_3.BadRequestException(correlationId, 'NO_SMS_RECIPIENTS', 'sms recipients.phone not set; smsRecipients.length equals 0');
+            callback(err);
             return;
         }
         this._smsDeliveryClient.sendMessageToRecipients(correlationId, smsRecipients, smsMessage, parameters, callback);
@@ -147,7 +149,8 @@ class MessageDistributionController {
         let settings;
         let recipients;
         if (this._emailDeliveryClient == null || this._emailSettingsClient == null) {
-            callback(null);
+            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'EMAIL_OR_EMAIL_SETTINGS_CLIENT_UNDEFINED', 'Email or emailSettings client is not defined');
+            callback(err);
             return;
         }
         async.series([
@@ -188,7 +191,8 @@ class MessageDistributionController {
         let settings;
         let recipients;
         if (this._smsDeliveryClient == null || this._smsSettingsClient == null) {
-            callback(null);
+            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'SMS_OR_SMS_SETTINGS_CLIENT_UNDEFINED', 'Sms or smsSettings client is not defined');
+            callback(err);
             return;
         }
         async.series([

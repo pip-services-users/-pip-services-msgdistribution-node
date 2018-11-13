@@ -147,7 +147,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             let err = new ConfigException(
                 correlationId,
                 'EMAIL_DELIVERY_CLIENT_UNDEFINED',
-                'EmailClient is not defined'
+                'Email client is not defined'
             );
             callback(err);
             return;
@@ -182,7 +182,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         callback: (err: any) => void): void {
             
         if (this._smsDeliveryClient == null) {
-            callback(null);
+            let err = new ConfigException(
+                correlationId,
+                'SMS_DELIVERY_CLIENT_UNDEFINED',
+                'Sms client is not defined'
+            );
+            callback(err);
             return;
         }
 
@@ -193,7 +198,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         let smsRecipients = _.filter(recipients, r => r.phone != null);
 
         if (smsRecipients.length == 0) {
-            callback(null);
+            let err = new BadRequestException(
+                correlationId,
+                'NO_SMS_RECIPIENTS',
+                'sms recipients.phone not set; smsRecipients.length equals 0'
+            );
+            callback(err);
             return;
         }
         
@@ -250,7 +260,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         let recipients: EmailRecipientV1[];
             
         if (this._emailDeliveryClient == null || this._emailSettingsClient == null) {
-            callback(null);
+            let err = new ConfigException(
+                correlationId,
+                'EMAIL_OR_EMAIL_SETTINGS_CLIENT_UNDEFINED',
+                'Email or emailSettings client is not defined'
+            );
+            callback(err);
             return;
         }
 
@@ -300,7 +315,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         let recipients: SmsRecipientV1[];
             
         if (this._smsDeliveryClient == null || this._smsSettingsClient == null) {
-            callback(null);
+            let err = new ConfigException(
+                correlationId,
+                'SMS_OR_SMS_SETTINGS_CLIENT_UNDEFINED',
+                'Sms or smsSettings client is not defined'
+            );
+            callback(err);
             return;
         }
 
