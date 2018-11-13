@@ -73,7 +73,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             this._commandSet = new MessageDistributionCommandSet(this);
         return this._commandSet;
     }
-    
+
     private getMessage(correlationId: string, message: MessageV1,
         callback: (err: any, message: MessageV1) => void): void {
         // Validate for present message
@@ -127,7 +127,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             if (err) {
                 callback(err, null);
             } else {
-                let message = <MessageV1> {
+                let message = <MessageV1>{
                     from: template.from,
                     subject: template.subject,
                     text: template.text,
@@ -143,16 +143,19 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
 
+        console.log("!!! sendEmailMessages ")
+
         if (this._emailDeliveryClient == null) {
             let err = new ConfigException(
                 correlationId,
                 'EMAIL_DELIVERY_CLIENT_UNDEFINED',
                 'Email client is not defined'
             );
+            console.log("!!! _emailDeliveryClient == null")
             callback(err);
             return;
         }
-                
+
         let emailMessage = <EmailMessageV1>{
             from: message.from,
             subject: message.subject,
@@ -163,6 +166,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         let emailRecipients = _.filter(recipients, r => r.email != null);
 
         if (emailRecipients.length == 0) {
+            console.log("!!! emailRecipients.length == 0 ")
             let err = new BadRequestException(
                 correlationId,
                 'NO_EMAIL_RECIPIENTS',
@@ -171,7 +175,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             callback(err);
             return;
         }
-        
+
         this._emailDeliveryClient.sendMessageToRecipients(
             correlationId, emailRecipients, emailMessage, parameters, callback
         );
@@ -180,7 +184,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
     private sendSmsMessages(correlationId: string, recipients: any[],
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
-            
+
         if (this._smsDeliveryClient == null) {
             let err = new ConfigException(
                 correlationId,
@@ -206,7 +210,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             callback(err);
             return;
         }
-        
+
         this._smsDeliveryClient.sendMessageToRecipients(
             correlationId, smsRecipients, smsMessage, parameters, callback
         );
@@ -216,13 +220,15 @@ export class MessageDistributionController implements IConfigurable, IReferencea
     public sendMessage(correlationId: string, recipient: RecipientV1,
         message: MessageV1, parameters: ConfigParams, method: string,
         callback?: (err: any) => void) {
-        
-        this.sendMessages(correlationId, [ recipient ], message, parameters, method, callback);
+
+        this.sendMessages(correlationId, [recipient], message, parameters, method, callback);
     }
 
     public sendMessages(correlationId: string, recipients: RecipientV1[],
         message: MessageV1, parameters: ConfigParams, method: string,
         callback?: (err: any) => void): void {
+
+        console.log("!!! sendMessages ")
 
         async.series([
             // Validate message or retrieve template
@@ -251,14 +257,14 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             },
         ], callback);
     }
-    
+
     private sendEmailMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string,
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
 
         let settings: EmailSettingsV1[];
         let recipients: EmailRecipientV1[];
-            
+
         if (this._emailDeliveryClient == null || this._emailSettingsClient == null) {
             let err = new ConfigException(
                 correlationId,
@@ -289,9 +295,9 @@ export class MessageDistributionController implements IConfigurable, IReferencea
                         return _.isEmpty(subscriptions) || subscriptions[subscription];
                     });
                 }
-                
+
                 // Define recipients
-                recipients = _.map(settings, s => <EmailRecipientV1>{ 
+                recipients = _.map(settings, s => <EmailRecipientV1>{
                     id: s.id,
                     name: s.name,
                     email: s.email,
@@ -310,10 +316,10 @@ export class MessageDistributionController implements IConfigurable, IReferencea
     private sendSmsMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string,
         message: MessageV1, parameters: ConfigParams,
         callback: (err: any) => void): void {
-            
+
         let settings: SmsSettingsV1[];
         let recipients: SmsRecipientV1[];
-            
+
         if (this._smsDeliveryClient == null || this._smsSettingsClient == null) {
             let err = new ConfigException(
                 correlationId,
@@ -344,9 +350,9 @@ export class MessageDistributionController implements IConfigurable, IReferencea
                         return _.isEmpty(subscriptions) || subscriptions[subscription];
                     });
                 }
-                
+
                 // Define recipients
-                recipients = _.map(settings, s => <SmsRecipientV1>{ 
+                recipients = _.map(settings, s => <SmsRecipientV1>{
                     id: s.id,
                     name: s.name,
                     phone: s.phone,
@@ -361,12 +367,12 @@ export class MessageDistributionController implements IConfigurable, IReferencea
             }
         ], callback);
     }
-    
+
     public sendMessageToRecipient(correlationId: string, recipientId: string, subscription: string,
         message: MessageV1, parameters: ConfigParams, method: string,
         callback?: (err: any) => void) {
-        
-        this.sendMessageToRecipients(correlationId, [ recipientId ], subscription, message, parameters, method, callback);
+
+        this.sendMessageToRecipients(correlationId, [recipientId], subscription, message, parameters, method, callback);
     }
 
     public sendMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string,
