@@ -1,5 +1,5 @@
-import { Descriptor } from 'pip-services-commons-node';
-import { CommandableLambdaFunction } from 'pip-services-aws-node';
+import { Descriptor } from 'pip-services3-commons-node';
+import { CommandableLambdaFunction } from 'pip-services3-aws-node';
 
 import { EmailSettingsClientFactory } from 'pip-clients-emailsettings-node';
 import { SmsSettingsClientFactory } from 'pip-clients-smssettings-node';

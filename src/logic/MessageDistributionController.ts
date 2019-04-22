@@ -1,18 +1,18 @@
 let _ = require('lodash');
 let async = require('async');
 
-import { ConfigParams } from 'pip-services-commons-node';
-import { IConfigurable } from 'pip-services-commons-node';
-import { IReferences } from 'pip-services-commons-node';
-import { Descriptor } from 'pip-services-commons-node';
-import { IReferenceable } from 'pip-services-commons-node';
-import { DependencyResolver } from 'pip-services-commons-node';
-import { ICommandable } from 'pip-services-commons-node';
-import { CommandSet } from 'pip-services-commons-node';
-import { BadRequestException } from 'pip-services-commons-node';
-import { ConfigException } from 'pip-services-commons-node';
-import { NotFoundException } from 'pip-services-commons-node';
-import { IOpenable } from 'pip-services-commons-node';
+import { ConfigParams } from 'pip-services3-commons-node';
+import { IConfigurable } from 'pip-services3-commons-node';
+import { IReferences } from 'pip-services3-commons-node';
+import { Descriptor } from 'pip-services3-commons-node';
+import { IReferenceable } from 'pip-services3-commons-node';
+import { DependencyResolver } from 'pip-services3-commons-node';
+import { ICommandable } from 'pip-services3-commons-node';
+import { CommandSet } from 'pip-services3-commons-node';
+import { BadRequestException } from 'pip-services3-commons-node';
+import { ConfigException } from 'pip-services3-commons-node';
+import { NotFoundException } from 'pip-services3-commons-node';
+import { IOpenable } from 'pip-services3-commons-node';
 
 import { EmailSettingsV1 } from 'pip-clients-emailsettings-node';
 import { IEmailSettingsClientV1 } from 'pip-clients-emailsettings-node';

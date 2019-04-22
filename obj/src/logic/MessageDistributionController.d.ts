@@ -1,9 +1,9 @@
-import { ConfigParams } from 'pip-services-commons-node';
-import { IConfigurable } from 'pip-services-commons-node';
-import { IReferences } from 'pip-services-commons-node';
-import { IReferenceable } from 'pip-services-commons-node';
-import { ICommandable } from 'pip-services-commons-node';
-import { CommandSet } from 'pip-services-commons-node';
+import { ConfigParams } from 'pip-services3-commons-node';
+import { IConfigurable } from 'pip-services3-commons-node';
+import { IReferences } from 'pip-services3-commons-node';
+import { IReferenceable } from 'pip-services3-commons-node';
+import { ICommandable } from 'pip-services3-commons-node';
+import { CommandSet } from 'pip-services3-commons-node';
 import { MessageV1 } from '../data/version1/MessageV1';
 import { RecipientV1 } from '../data/version1/RecipientV1';
 import { IMessageDistributionController } from './IMessageDistributionController';
@@ -20,13 +20,13 @@ export declare class MessageDistributionController implements IConfigurable, IRe
     configure(config: ConfigParams): void;
     setReferences(references: IReferences): void;
     getCommandSet(): CommandSet;
-    private getMessage(correlationId, message, callback);
-    private sendEmailMessages(correlationId, recipients, message, parameters, callback);
-    private sendSmsMessages(correlationId, recipients, message, parameters, callback);
+    private getMessage;
+    private sendEmailMessages;
+    private sendSmsMessages;
     sendMessage(correlationId: string, recipient: RecipientV1, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
     sendMessages(correlationId: string, recipients: RecipientV1[], message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
-    private sendEmailMessageToRecipients(correlationId, recipientIds, subscription, message, parameters, callback);
-    private sendSmsMessageToRecipients(correlationId, recipientIds, subscription, message, parameters, callback);
+    private sendEmailMessageToRecipients;
+    private sendSmsMessageToRecipients;
     sendMessageToRecipient(correlationId: string, recipientId: string, subscription: string, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
     sendMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
 }

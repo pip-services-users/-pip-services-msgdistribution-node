@@ -2,17 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 let _ = require('lodash');
 let async = require('async');
-const pip_services_commons_node_1 = require("pip-services-commons-node");
-const pip_services_commons_node_2 = require("pip-services-commons-node");
-const pip_services_commons_node_3 = require("pip-services-commons-node");
-const pip_services_commons_node_4 = require("pip-services-commons-node");
-const pip_services_commons_node_5 = require("pip-services-commons-node");
+const pip_services3_commons_node_1 = require("pip-services3-commons-node");
+const pip_services3_commons_node_2 = require("pip-services3-commons-node");
+const pip_services3_commons_node_3 = require("pip-services3-commons-node");
+const pip_services3_commons_node_4 = require("pip-services3-commons-node");
+const pip_services3_commons_node_5 = require("pip-services3-commons-node");
 const DeliveryMethodV1_1 = require("../data/version1/DeliveryMethodV1");
 const MessageDistributionCommandSet_1 = require("./MessageDistributionCommandSet");
 class MessageDistributionController {
     constructor() {
-        this._config = new pip_services_commons_node_1.ConfigParams();
-        this._dependencyResolver = new pip_services_commons_node_2.DependencyResolver(MessageDistributionController._defaultConfig);
+        this._config = new pip_services3_commons_node_1.ConfigParams();
+        this._dependencyResolver = new pip_services3_commons_node_2.DependencyResolver(MessageDistributionController._defaultConfig);
     }
     configure(config) {
         config = config.setDefaults(MessageDistributionController._defaultConfig);
@@ -35,14 +35,14 @@ class MessageDistributionController {
     getMessage(correlationId, message, callback) {
         // Validate for present message
         if (message == null) {
-            let err = new pip_services_commons_node_3.BadRequestException(correlationId, 'MSG_MISSING', 'Message cannot be null');
+            let err = new pip_services3_commons_node_3.BadRequestException(correlationId, 'MSG_MISSING', 'Message cannot be null');
             callback(err, null);
             return;
         }
         // Process regular messages
         if (message.template == null) {
             if (message.subject == null && message.html == null && message.text == null) {
-                let err = new pip_services_commons_node_3.BadRequestException(correlationId, 'MSG_EMPTY', 'Message subject, text and html cannot all be empty at the same time');
+                let err = new pip_services3_commons_node_3.BadRequestException(correlationId, 'MSG_EMPTY', 'Message subject, text and html cannot all be empty at the same time');
                 callback(err, null);
                 return;
             }
@@ -51,14 +51,14 @@ class MessageDistributionController {
         }
         // Process message templates
         if (this._templatesClient == null) {
-            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'MSG_TEMPLATE_CLIENT_UNDEFINED', 'MessageTemplateClient is not defined');
+            let err = new pip_services3_commons_node_4.ConfigException(correlationId, 'MSG_TEMPLATE_CLIENT_UNDEFINED', 'MessageTemplateClient is not defined');
             callback(err, null);
             return;
         }
         // Retrieve template from message template service
         this._templatesClient.getTemplateByIdOrName(correlationId, message.template, (err, template) => {
             if (err == null && template == null) {
-                err = new pip_services_commons_node_5.NotFoundException(correlationId, 'MSG_TEMPLATE_NOT_FOUND', 'Message template ' + message.template + ' was not found').withDetails('name', message.template);
+                err = new pip_services3_commons_node_5.NotFoundException(correlationId, 'MSG_TEMPLATE_NOT_FOUND', 'Message template ' + message.template + ' was not found').withDetails('name', message.template);
             }
             if (err) {
                 callback(err, null);
@@ -76,7 +76,7 @@ class MessageDistributionController {
     }
     sendEmailMessages(correlationId, recipients, message, parameters, callback) {
         if (this._emailDeliveryClient == null) {
-            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'EMAIL_DELIVERY_CLIENT_UNDEFINED', 'Email client is not defined');
+            let err = new pip_services3_commons_node_4.ConfigException(correlationId, 'EMAIL_DELIVERY_CLIENT_UNDEFINED', 'Email client is not defined');
             callback(err);
             return;
         }
@@ -88,7 +88,7 @@ class MessageDistributionController {
         };
         let emailRecipients = _.filter(recipients, r => r.email != null);
         if (emailRecipients.length == 0) {
-            let err = new pip_services_commons_node_3.BadRequestException(correlationId, 'NO_EMAIL_RECIPIENTS', 'email recipients.email not set; emailRecipients.length equals 0');
+            let err = new pip_services3_commons_node_3.BadRequestException(correlationId, 'NO_EMAIL_RECIPIENTS', 'email recipients.email not set; emailRecipients.length equals 0');
             callback(err);
             return;
         }
@@ -96,7 +96,7 @@ class MessageDistributionController {
     }
     sendSmsMessages(correlationId, recipients, message, parameters, callback) {
         if (this._smsDeliveryClient == null) {
-            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'SMS_DELIVERY_CLIENT_UNDEFINED', 'Sms client is not defined');
+            let err = new pip_services3_commons_node_4.ConfigException(correlationId, 'SMS_DELIVERY_CLIENT_UNDEFINED', 'Sms client is not defined');
             callback(err);
             return;
         }
@@ -106,7 +106,7 @@ class MessageDistributionController {
         };
         let smsRecipients = _.filter(recipients, r => r.phone != null);
         if (smsRecipients.length == 0) {
-            let err = new pip_services_commons_node_3.BadRequestException(correlationId, 'NO_SMS_RECIPIENTS', 'sms recipients.phone not set; smsRecipients.length equals 0');
+            let err = new pip_services3_commons_node_3.BadRequestException(correlationId, 'NO_SMS_RECIPIENTS', 'sms recipients.phone not set; smsRecipients.length equals 0');
             callback(err);
             return;
         }
@@ -149,7 +149,7 @@ class MessageDistributionController {
         let settings;
         let recipients;
         if (this._emailDeliveryClient == null || this._emailSettingsClient == null) {
-            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'EMAIL_OR_EMAIL_SETTINGS_CLIENT_UNDEFINED', 'Email or emailSettings client is not defined');
+            let err = new pip_services3_commons_node_4.ConfigException(correlationId, 'EMAIL_OR_EMAIL_SETTINGS_CLIENT_UNDEFINED', 'Email or emailSettings client is not defined');
             callback(err);
             return;
         }
@@ -191,7 +191,7 @@ class MessageDistributionController {
         let settings;
         let recipients;
         if (this._smsDeliveryClient == null || this._smsSettingsClient == null) {
-            let err = new pip_services_commons_node_4.ConfigException(correlationId, 'SMS_OR_SMS_SETTINGS_CLIENT_UNDEFINED', 'Sms or smsSettings client is not defined');
+            let err = new pip_services3_commons_node_4.ConfigException(correlationId, 'SMS_OR_SMS_SETTINGS_CLIENT_UNDEFINED', 'Sms or smsSettings client is not defined');
             callback(err);
             return;
         }
@@ -263,6 +263,6 @@ class MessageDistributionController {
         ], callback);
     }
 }
-MessageDistributionController._defaultConfig = pip_services_commons_node_1.ConfigParams.fromTuples('dependencies.emailsettings', 'pip-services-emailsettings:client:*:*:1.0', 'dependencies.smssettings', 'pip-services-smssettings:client:*:*:1.0', 'dependencies.emaildelivery', 'pip-services-email:client:*:*:1.0', 'dependencies.smsdelivery', 'pip-services-sms:client:*:*:1.0', 'dependencies.msgtemplates', 'pip-services-msgtemplates:client:*:*:1.0');
+MessageDistributionController._defaultConfig = pip_services3_commons_node_1.ConfigParams.fromTuples('dependencies.emailsettings', 'pip-services-emailsettings:client:*:*:1.0', 'dependencies.smssettings', 'pip-services-smssettings:client:*:*:1.0', 'dependencies.emaildelivery', 'pip-services-email:client:*:*:1.0', 'dependencies.smsdelivery', 'pip-services-sms:client:*:*:1.0', 'dependencies.msgtemplates', 'pip-services-msgtemplates:client:*:*:1.0');
 exports.MessageDistributionController = MessageDistributionController;
 //# sourceMappingURL=MessageDistributionController.js.map
