@@ -46,7 +46,7 @@
         "pip-services3-data-node": "^3.0.0",
         "pip-services3-aws-node": "^3.0.0",
         "pip-services3-rpc-node": "^3.0.0",
-        "pip-services3-mongodb-node": "^3.0.0",
+        "pip-services3-mongoose-node": "^3.0.0",
         "pip-clients-emailsettings-node": "git+ssh://git@github.com:pip-services-users/pip-clients-emailsettings-node.git",
         "pip-clients-smssettings-node": "git+ssh://git@github.com:pip-services-users/pip-clients-smssettings-node.git",
         "pip-clients-email-node": "git+ssh://git@github.com:pip-services-infrastructure/pip-clients-email-node.git",
