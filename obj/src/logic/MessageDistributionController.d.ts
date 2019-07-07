@@ -1,0 +1,32 @@
+import { ConfigParams } from 'pip-services3-commons-node';
+import { IConfigurable } from 'pip-services3-commons-node';
+import { IReferences } from 'pip-services3-commons-node';
+import { IReferenceable } from 'pip-services3-commons-node';
+import { ICommandable } from 'pip-services3-commons-node';
+import { CommandSet } from 'pip-services3-commons-node';
+import { MessageV1 } from '../data/version1/MessageV1';
+import { RecipientV1 } from '../data/version1/RecipientV1';
+import { IMessageDistributionController } from './IMessageDistributionController';
+export declare class MessageDistributionController implements IConfigurable, IReferenceable, ICommandable, IMessageDistributionController {
+    private static _defaultConfig;
+    private _config;
+    private _dependencyResolver;
+    private _emailSettingsClient;
+    private _smsSettingsClient;
+    private _emailDeliveryClient;
+    private _smsDeliveryClient;
+    private _templatesClient;
+    private _commandSet;
+    configure(config: ConfigParams): void;
+    setReferences(references: IReferences): void;
+    getCommandSet(): CommandSet;
+    private getMessage;
+    private sendEmailMessages;
+    private sendSmsMessages;
+    sendMessage(correlationId: string, recipient: RecipientV1, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
+    sendMessages(correlationId: string, recipients: RecipientV1[], message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
+    private sendEmailMessageToRecipients;
+    private sendSmsMessageToRecipients;
+    sendMessageToRecipient(correlationId: string, recipientId: string, subscription: string, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
+    sendMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
+}

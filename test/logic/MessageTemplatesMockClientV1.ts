@@ -1,5 +1,6 @@
 import { MessageTemplateV1 } from 'pip-clients-msgtemplates-node';
 import { MessageTemplatesNullClientV1 } from 'pip-clients-msgtemplates-node';
+import { MultiString } from 'pip-services3-commons-node';
 
 export class MessageTemplatesMockClientV1 extends MessageTemplatesNullClientV1 {
  
@@ -15,15 +16,9 @@ export class MessageTemplatesMockClientV1 extends MessageTemplatesNullClientV1 {
             name: idOrName,
             from: null,
             status: 'new',
-            subject: {
-                en: 'Test subject'
-            },
-            text: {
-                en: 'Test text'
-            },
-            html: {
-                en: 'Test html'
-            }
+            subject: new MultiString({en: 'Test subject'}),
+            text: new MultiString({en: 'Test text'}),
+            html:new MultiString({en: 'Test html'})
         });
     }
     
