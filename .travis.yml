@@ -22,14 +22,20 @@ install:
   - sudo apt-get update
   - sudo apt-get install -y powershell
   - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
-
-script: 
   - ./build.ps1
   - ./test.ps1
   - ./package.ps1
   - ./tag.ps1
   - ./publish.ps1
   - ./release.ps1
+
+# script: 
+#   - ./build.ps1
+#   - ./test.ps1
+#   - ./package.ps1
+#   - ./tag.ps1
+#   - ./publish.ps1
+#   - ./release.ps1
 
 after_script:
   - ./clean.ps1
