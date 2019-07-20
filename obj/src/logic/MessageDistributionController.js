@@ -40,7 +40,7 @@ class MessageDistributionController {
             return;
         }
         // Process regular messages
-        if (message.template == null) {
+        if (message.template == null && message.template != "") {
             if (message.subject == null && message.html == null && message.text == null) {
                 let err = new pip_services3_commons_node_3.BadRequestException(correlationId, 'MSG_EMPTY', 'Message subject, text and html cannot all be empty at the same time');
                 callback(err, null);

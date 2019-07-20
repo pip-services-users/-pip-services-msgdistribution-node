@@ -15,6 +15,7 @@
 # Default controller
 - descriptor: "pip-services-msgdistribution:controller:default:default:1.0"
 
+{{#if HTTP_ENABLED}}
 # Common HTTP endpoint
 - descriptor: "pip-services:endpoint:http:default:1.0"
   connection:
@@ -30,3 +31,19 @@
 
 # Status service
 - descriptor: "pip-services:status-service:http:default:1.0"
+{{/if}}
+
+{{#if GRPC_ENABLED}}
+# Common GRPC endpoint
+- descriptor: "pip-services:endpoint:grpc:default:1.0"
+  connection:
+    protocol: "http"
+    host: "0.0.0.0"
+    port: 8090
+
+# GRPC endpoint version 1.0
+- descriptor: "pip-services-msgdistribution:service:grpc:default:1.0"
+
+# Commandable GRPC endpoint version 1.0
+- descriptor: "pip-services-msgdistribution:service:commandable-grpc:default:1.0"
+{{/if}}

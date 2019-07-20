@@ -1,0 +1,105 @@
+// Copyright 2015 gRPC authors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "pip-services.users.msgdistribution.version1";
+option java_outer_classname = "MessageDistributionProtoV1";
+option objc_class_prefix = "MSG_DISTRIBUTION_CMD_V1";
+
+package msgdistribution_v1;
+
+message ErrorDescription {
+  string type = 1;
+  string category = 2;
+  string code = 3;
+  string correlation_id = 4;
+  string status = 5;
+  string message = 6;
+  string cause = 7;
+  string stack_trace = 8;
+  map<string, string> details = 9;
+}
+
+message Message {
+    string template = 1;
+    string from = 2;
+    string cc = 3;
+    string bcc = 4;
+    string reply_to = 5;
+    string subject = 6;
+    string text = 7;
+    string html = 8;
+}
+
+message Recipient {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    string phone = 4;
+    string language = 5;
+}
+
+// The message distribution service definition.
+service MessageDistribution {
+  rpc send_message (SendMessageRequest) returns (SendEmptyReply) {}
+  rpc send_messages (SendMessagesRequest) returns (SendEmptyReply) {}
+  rpc send_message_to_recipient (SendMessageWithRecipientRequest) returns (SendEmptyReply) {}
+  rpc send_message_to_recipients (SendMessageWithRecipientsRequest) returns (SendEmptyReply) {}
+}
+
+// The request message containing the send message request.
+message SendMessageRequest {
+  string correlation_id = 1;
+  string method = 2;
+  Message message = 3;
+  map<string,string> parameters = 4;
+  Recipient recipient = 5;
+}
+
+// The request message containing the send messages request.
+message SendMessagesRequest {
+  string correlation_id = 1;
+  string method = 2;
+  Message message = 3;
+  map<string,string> parameters = 4;
+  repeated Recipient recipients = 5;
+}
+
+// The request message containing the send message with recipient request.
+message SendMessageWithRecipientRequest {
+  string correlation_id = 1;
+  string method = 2;
+  Message message = 3;
+  map<string,string> parameters = 4;
+  string subscription = 5;
+  string recipient_id = 6;
+}
+
+// The request message containing the email message with recipients request.
+message SendMessageWithRecipientsRequest {
+  string correlation_id = 1;
+  string method = 2;
+  Message message = 3;
+  map<string,string> parameters = 4;
+  string subscription = 5;
+  repeated string recipient_ids = 6;
+}
+
+// The response message containing the send empty response
+message SendEmptyReply {
+  ErrorDescription error = 1;
+}
+

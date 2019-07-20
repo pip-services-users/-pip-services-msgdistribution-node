@@ -7,6 +7,7 @@ import { EmailClientFactory } from 'pip-clients-email-node';
 import { SmsClientFactory } from 'pip-clients-sms-node';
 import { MessageTemplatesClientFactory } from 'pip-clients-msgtemplates-node';
 import { DefaultRpcFactory } from 'pip-services3-rpc-node';
+import { DefaultGrpcFactory } from 'pip-services3-grpc-node';
 
 import { MessageDistributionServiceFactory } from '../build/MessageDistributionServiceFactory';
 
@@ -21,6 +22,7 @@ export class MessageDistributionProcess extends ProcessContainer {
         this._factories.add(new SmsClientFactory());
         this._factories.add(new MessageTemplatesClientFactory());
         this._factories.add(new DefaultRpcFactory());
+        this._factories.add(new DefaultGrpcFactory());
     }
 
 }

@@ -20,13 +20,13 @@ export declare class MessageDistributionController implements IConfigurable, IRe
     configure(config: ConfigParams): void;
     setReferences(references: IReferences): void;
     getCommandSet(): CommandSet;
-    private getMessage(correlationId, message, callback);
-    private sendEmailMessages(correlationId, recipients, message, parameters, callback);
-    private sendSmsMessages(correlationId, recipients, message, parameters, callback);
+    private getMessage;
+    private sendEmailMessages;
+    private sendSmsMessages;
     sendMessage(correlationId: string, recipient: RecipientV1, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
     sendMessages(correlationId: string, recipients: RecipientV1[], message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
-    private sendEmailMessageToRecipients(correlationId, recipientIds, subscription, message, parameters, callback);
-    private sendSmsMessageToRecipients(correlationId, recipientIds, subscription, message, parameters, callback);
+    private sendEmailMessageToRecipients;
+    private sendSmsMessageToRecipients;
     sendMessageToRecipient(correlationId: string, recipientId: string, subscription: string, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
     sendMessageToRecipients(correlationId: string, recipientIds: string[], subscription: string, message: MessageV1, parameters: ConfigParams, method: string, callback?: (err: any) => void): void;
 }

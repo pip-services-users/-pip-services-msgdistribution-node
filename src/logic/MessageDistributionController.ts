@@ -88,7 +88,7 @@ export class MessageDistributionController implements IConfigurable, IReferencea
         }
 
         // Process regular messages
-        if (message.template == null) {
+        if (message.template == null && message.template != "") {
             if (message.subject == null && message.html == null && message.text == null) {
                 let err = new BadRequestException(
                     correlationId,
