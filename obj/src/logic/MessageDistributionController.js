@@ -263,6 +263,6 @@ class MessageDistributionController {
         ], callback);
     }
 }
-MessageDistributionController._defaultConfig = pip_services3_commons_node_1.ConfigParams.fromTuples('dependencies.emailsettings', 'pip-services-emailsettings:client:*:*:1.0', 'dependencies.smssettings', 'pip-services-smssettings:client:*:*:1.0', 'dependencies.emaildelivery', 'pip-services-email:client:*:*:1.0', 'dependencies.smsdelivery', 'pip-services-sms:client:*:*:1.0', 'dependencies.msgtemplates', 'pip-services-msgtemplates:client:*:*:1.0');
 exports.MessageDistributionController = MessageDistributionController;
+MessageDistributionController._defaultConfig = pip_services3_commons_node_1.ConfigParams.fromTuples('dependencies.emailsettings', 'pip-services-emailsettings:client:*:*:1.0', 'dependencies.smssettings', 'pip-services-smssettings:client:*:*:1.0', 'dependencies.emaildelivery', 'pip-services-email:client:*:*:1.0', 'dependencies.smsdelivery', 'pip-services-sms:client:*:*:1.0', 'dependencies.msgtemplates', 'pip-services-msgtemplates:client:*:*:1.0');
 //# sourceMappingURL=MessageDistributionController.js.map

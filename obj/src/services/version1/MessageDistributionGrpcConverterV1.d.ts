@@ -5,10 +5,10 @@ export declare class MessageDistributionGrpcConverterV1 {
     static toError(obj: any): any;
     static setMap(map: any, values: any): void;
     static getMap(map: any): any;
-    private static toJson(value);
-    private static fromJson(value);
+    private static toJson;
+    private static fromJson;
     static fromMessage(message: MessageV1): any;
-    private static clearEmpty(value);
+    private static clearEmpty;
     static toMessage(obj: any): MessageV1;
     static fromRecipient(recipient: RecipientV1): any;
     static toRecipient(obj: any): RecipientV1;

@@ -15,10 +15,10 @@ class MessageDistributionServiceFactory extends pip_services3_components_node_1.
         this.registerAsType(MessageDistributionServiceFactory.GrpcServiceDescriptor, MessageDistributionGrpcServiceV1_1.MessageDistributionGrpcServiceV1);
     }
 }
+exports.MessageDistributionServiceFactory = MessageDistributionServiceFactory;
 MessageDistributionServiceFactory.Descriptor = new pip_services3_commons_node_1.Descriptor("pip-services-msgdistribution", "factory", "default", "default", "1.0");
 MessageDistributionServiceFactory.ControllerDescriptor = new pip_services3_commons_node_1.Descriptor("pip-services-msgdistribution", "controller", "default", "*", "1.0");
 MessageDistributionServiceFactory.HttpServiceDescriptor = new pip_services3_commons_node_1.Descriptor("pip-services-msgdistribution", "service", "http", "*", "1.0");
 MessageDistributionServiceFactory.CommandableGrpcServiceDescriptor = new pip_services3_commons_node_1.Descriptor("pip-services-msgdistribution", "service", "commandable-grpc", "*", "1.0");
 MessageDistributionServiceFactory.GrpcServiceDescriptor = new pip_services3_commons_node_1.Descriptor("pip-services-msgdistribution", "service", "grpc", "*", "1.0");
-exports.MessageDistributionServiceFactory = MessageDistributionServiceFactory;
 //# sourceMappingURL=MessageDistributionServiceFactory.js.map
